@@ -16,3 +16,5 @@ require (
 	github.com/valyala/fasttemplate v1.1.0 // indirect
 	golang.org/x/crypto v0.0.0-20200414173820-0848c9571904
 )
+
+replace github.com/ivan-avalos/linkbucket-go => ./
