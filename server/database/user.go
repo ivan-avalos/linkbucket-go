@@ -23,7 +23,7 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/ivan-avalos/linkbucket/server/utils"
+	"github.com/ivan-avalos/linkbucket-go/server/utils"
 	"golang.org/x/crypto/bcrypt"
 )
 

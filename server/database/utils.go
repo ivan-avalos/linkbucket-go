@@ -21,7 +21,7 @@ package database
 import (
 	"net/http"
 
-	"github.com/ivan-avalos/linkbucket/server/utils"
+	"github.com/ivan-avalos/linkbucket-go/server/utils"
 	"github.com/jinzhu/gorm"
 )
 

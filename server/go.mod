@@ -1,4 +1,4 @@
-module github.com/ivan-avalos/linkbucket
+module github.com/ivan-avalos/linkbucket-go/server
 
 go 1.13
 

@@ -24,7 +24,7 @@ import (
 	"strings"
 
 	"github.com/go-playground/validator"
-	"github.com/ivan-avalos/linkbucket/server/database"
+	"github.com/ivan-avalos/linkbucket-go/server/database"
 	"github.com/labstack/echo"
 )
 
@@ -34,7 +34,7 @@ type CustomValidator struct {
 }
 
 // Validate validates using a CustomValidator
-func (cv *CustomValidator) validate(i interface{}) error {
+func (cv *CustomValidator) Validate(i interface{}) error {
 	return cv.validator.Struct(i)
 }
 

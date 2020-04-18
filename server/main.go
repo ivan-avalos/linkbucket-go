@@ -22,8 +22,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/ivan-avalos/linkbucket/server/database"
-	"github.com/ivan-avalos/linkbucket/server/setup"
+	"github.com/ivan-avalos/linkbucket-go/server/database"
+	"github.com/ivan-avalos/linkbucket-go/server/setup"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"

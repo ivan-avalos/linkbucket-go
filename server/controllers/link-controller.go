@@ -22,8 +22,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/ivan-avalos/linkbucket/server/database"
-	"github.com/ivan-avalos/linkbucket/server/utils"
+	"github.com/ivan-avalos/linkbucket-go/server/database"
+	"github.com/ivan-avalos/linkbucket-go/server/utils"
 	"github.com/labstack/echo"
 )
 

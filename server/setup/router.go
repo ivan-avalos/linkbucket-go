@@ -21,8 +21,8 @@ package setup
 import (
 	"os"
 
-	"github.com/ivan-avalos/linkbucket/server/controllers"
-	"github.com/ivan-avalos/linkbucket/server/utils"
+	"github.com/ivan-avalos/linkbucket-go/server/controllers"
+	"github.com/ivan-avalos/linkbucket-go/server/utils"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 )
