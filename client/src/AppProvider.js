@@ -10,7 +10,7 @@ export class AppProvider extends React.Component {
     constructor(props) {
         super(props);
         this.inst = axios.create({
-            baseURL: 'http://localhost:8000/api'
+            baseURL: `${process.env.REACT_APP_LINKBUCKET_URL}/api`
         });
         this.config = {
             headers: {}
@@ -104,6 +104,10 @@ export class AppProvider extends React.Component {
         });
     }
 
+    goBack() {
+        this.props.history.goBack();
+    }
+
     setSearch(search) {
         this.props.history.replace({
             search: search
@@ -185,6 +189,13 @@ export class AppProvider extends React.Component {
             .catch(() => false);
     }
 
+    async getLink(id) {
+        return this.inst.get('/link/'+id, this.config)
+            .then(response => {
+                return response.data;
+            }).catch(() => null);
+    }
+
     async getLinks() {
         this.setState({links: []});
         const params = new URLSearchParams(this.getSearch());
@@ -192,7 +203,10 @@ export class AppProvider extends React.Component {
         return this.inst({
             method: 'get',
             url: '/link',
-            params: { page: params.get('p') || 1, limit: 15 },
+            params: {
+                page: params.get('p') || 1,
+                limit: process.env.REACT_APP_PAGINATE_LIMIT,
+            },
             ...this.config
          })
             .then(response => {
@@ -250,7 +264,6 @@ export class AppProvider extends React.Component {
     async updateLink(id, link) {
         return this.inst.put('/link/'+id, link, this.config)
             .then(() => {
-                this.getLinks();
                 return true;
             })
             .catch(() => false);
@@ -258,8 +271,7 @@ export class AppProvider extends React.Component {
 
     async deleteLink(id) {
         return this.inst.delete('/link/'+id, this.config)
-            .then(response => {
-                this.getLinks();
+            .then(() => {
                 return true;
             })
             .catch(() => false);
@@ -282,6 +294,7 @@ export class AppProvider extends React.Component {
                 value={{
                     state: this.state,
                     goHome: this.goHome.bind(this),
+                    goBack: this.goBack.bind(this),
                     setSearch: this.setSearch.bind(this),
                     getSearch: this.getSearch.bind(this),
                     addError: this.addError.bind(this),
@@ -289,6 +302,7 @@ export class AppProvider extends React.Component {
                     login: this.login.bind(this),
                     logout: this.logout.bind(this),
                     addLink: this.addLink.bind(this),
+                    getLink: this.getLink.bind(this),
                     getLinks: this.getLinks.bind(this),
                     getLinksForTag: this.getLinksForTag.bind(this),
                     getLinksForSearch: this.getLinksForSearch.bind(this),

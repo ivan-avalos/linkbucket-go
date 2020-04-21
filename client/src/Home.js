@@ -63,7 +63,7 @@ class Search extends React.Component {
                         </InputGroup>
                     </p>
                     <h4>Tags</h4>
-                    <Tags tags={this.context.state.tags} />
+                    <Tags count tags={this.context.state.tags} />
                 </Card.Body>
             </Card>
         );

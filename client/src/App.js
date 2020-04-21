@@ -15,6 +15,7 @@ import Footer from './Footer';
 import Home from './Home';
 import Login from './Login';
 import Register from './Register';
+import EditLink from './EditLink';
 
 export default class App extends React.Component {
     render() {
@@ -41,6 +42,9 @@ export default class App extends React.Component {
                                                 </Route>
                                                 <Route path={["/home", "/tag/:slug", "/search"]} render={props => (
                                                     !context.state.isAuth ? <Redirect to="/login" /> : <Home location={props.location} match={props.match} />
+                                                )} />
+                                                <Route path="/edit/:id" render={props => (
+                                                    !context.state.isAuth ? <Redirect to="/login" /> : <EditLink edit={true} location={props.location} match={props.match} />
                                                 )} />
                                             </Switch>
                                         </Col>

@@ -9,16 +9,33 @@ export default class EditLink extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            "title": "",
-            "link": "",
-            "tags": []
+            id: null,
+            title: "",
+            link: "",
+            tags: []
         };
-        if (this.props.edit) {
-            this.state = this.props.link;
-        }
         this.handleTags = this.handleTags.bind(this);
         this.handleInput = this.handleInput.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+    }
+
+    componentDidMount() {
+        if (this.props.edit) {
+            const id = this.props.match.params.id;
+            this.context.getLink(id).then(link => {
+                if (link) {
+                    const tags = link.tags.map(tag =>{
+                        return tag.name;
+                    });
+                    this.setState({
+                        id: link.id,
+                        title: link.title,
+                        link: link.link,
+                        tags: tags
+                    });
+                }
+            })
+        }
     }
 
     handleTags(tags) {
@@ -38,59 +55,78 @@ export default class EditLink extends React.Component {
         const tags = this.state.tags.join(',');
         if (!this.props.edit) {
             this.context.addLink({
-                "title": this.state.link,
-                "link": this.state.link,
-                "tags": tags
+                link: this.state.link,
+                tags: tags
             }).then(response => {
                 if (response) {
                     this.setState({
-                        "title": "",
-                        "link": "",
-                        "tags": []
+                        title: "",
+                        link: "",
+                        tags: []
                     });
                     this.context.goHome();
                 }
             });
+        } else {
+            this.context.updateLink(this.state.id, {
+                title: this.state.title,
+                link: this.state.link,
+                tags: tags
+            }).then(() => {
+                this.context.goBack();
+            })
         }
     }
 
     render() {
         return (
-            <Card>
-                <Card.Header className="h5">Add Link</Card.Header>
-                <Card.Body>
-                    <ValidationErrors />
-                    { this.context.edit &&
+            <div>
+                { this.props.edit && 
+                    <p>
+                        <Button variant="warning"
+                            size="lg"
+                            onClick={this.context.goBack}>Go Back</Button>
+                    </p>
+                }
+                <Card>
+                    <Card.Header className="h5">Add Link</Card.Header>
+                    <Card.Body>
+                        <ValidationErrors />
+                        { this.props.edit &&
+                            <Form.Group>
+                                <Form.Label>Title</Form.Label>
+                                <Form.Control
+                                    name="title"
+                                    placeholder="Example Website"
+                                    value={this.state.title}
+                                    onChange={this.handleInput}
+                                />
+                            </Form.Group>
+                        }
                         <Form.Group>
-                            <Form.Label>Title</Form.Label>
+                            <Form.Label>Link</Form.Label>
                             <Form.Control
-                                name="title"
-                                placeholder="Example Website"
-                                value={this.state.title}
+                                type="url"
+                                name="link"
+                                placeholder="https://example.com/"
+                                value={this.state.link}
                                 onChange={this.handleInput}
                             />
                         </Form.Group>
-                    }
-                    <Form.Group>
-                        <Form.Label>Link</Form.Label>
-                        <Form.Control
-                            type="url"
-                            name="link"
-                            placeholder="https://example.com/"
-                            value={this.state.link}
-                            onChange={this.handleInput}
-                        />
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Tags</Form.Label>
-                        <TagsInput
-                            value={this.state.tags} 
-                            onChange={this.handleTags}
-                        />
-                    </Form.Group>
-                    <Button variant="primary" onClick={this.onSubmit}>Add Link</Button>
-                </Card.Body>
-            </Card>
+                        <Form.Group>
+                            <Form.Label>Tags</Form.Label>
+                            <TagsInput
+                                value={this.state.tags} 
+                                onChange={this.handleTags}
+                            />
+                        </Form.Group>
+                        { this.props.edit ?
+                             <Button variant="warning" onClick={this.onSubmit}>Edit Link</Button> :
+                             <Button variant="primary" onClick={this.onSubmit}>Add Link</Button>
+                        }
+                    </Card.Body>
+                </Card>
+            </div>
         );
     }
 }

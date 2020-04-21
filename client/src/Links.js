@@ -44,6 +44,12 @@ export default class Links extends React.Component {
         this.context.setSearch('?p='+page+(params.get('q') ? ('&q='+params.get('q')) : ''));
     }
 
+    onDelete(id) {
+        this.context.deleteLink(id).then(() => {
+            this.loadLinks();
+        })
+    }
+
     render() {
         const pag = this.context.state.pagination;
         var title = <h1>Links</h1>;
@@ -73,7 +79,7 @@ export default class Links extends React.Component {
             <div id="links">
                 {title}
                 {this.context.state.links.map((link) => {
-                    return <LinkItem link={link} key={link.id} />;
+                    return <LinkItem link={link} key={link.id} onDelete={this.onDelete.bind(this)} />;
                 })}
                 <Row className="justify-content-center">
                     <Pagination
@@ -92,6 +98,10 @@ export default class Links extends React.Component {
 }
 
 class LinkItem extends React.Component {
+    onDelete() {
+        this.props.onDelete(this.props.link.id);
+    }
+
     render() {
         const link = this.props.link;
         return (
@@ -99,14 +109,14 @@ class LinkItem extends React.Component {
                 <Card.Body>
                         <h5>{link.title}</h5>
                         <Card.Text>
-                            <a href={link.link} className="link-url">{link.link}</a>
+                            <a href={link.link} target="_blank" className="link-url">{link.link}</a>
                         </Card.Text>
                         <Card.Text>
                             <Tags tags={link.tags} className="mb-3" />
                         </Card.Text>
-                        <a className="btn btn-primary" href={link.link}>Go</a>&nbsp;
+                        <a className="btn btn-primary" href={link.link} target="_blank">Go</a>&nbsp;
                         <Link to={"/edit/"+link.id} className="btn btn-warning">Edit</Link>&nbsp;
-                        <Link to={"/delete/"+link.id} className="btn btn-danger">Delete</Link>
+                        <Link onClick={this.onDelete.bind(this)} className="btn btn-danger">Delete</Link>
                 </Card.Body>
             </Card>
         );
