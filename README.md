@@ -1,13 +1,27 @@
 ![Linkbucket Logo](Logo.svg)
 
-Linkbucket is a free and open-source online bookmark manager focused on simplicity and minimalism.
+Linkbucket is a free and open-source online bookmark manager focused on simplicity and minimalism. It is written in Go and React and it is totally self-hostable, so you can run your own instance.
 
 # Installation
+
+## Requirements
++ Go 1.13+
++ NodeJS
++ NPM
++ MySQL
+
+## Commands
 ```sh
+# React front-end
 cd client
+emacs .env.local # fill variables
 npm install
 npm run build
+
+# Go back-end
 cd ..
+cp env.example .env
+emacs .env #fill variables
 cd server
 go install
 go run .
