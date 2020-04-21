@@ -20,7 +20,6 @@ npm run build
 cd ../server
 cp env.example .env
 emacs .env #fill variables
-cd server
 go install
 go run .
 ```
