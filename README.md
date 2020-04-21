@@ -12,14 +12,12 @@ Linkbucket is a free and open-source online bookmark manager focused on simplici
 
 ## Commands
 ```sh
-# React front-end
 cd client
 emacs .env.local # fill variables
 npm install
 npm run build
 
-# Go back-end
-cd ..
+cd ../server
 cp env.example .env
 emacs .env #fill variables
 cd server
