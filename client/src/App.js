@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './Logo.svg';
 import './App.css';
 
 import { AppContext, AppProviderWithRouter } from './AppProvider';

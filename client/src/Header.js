@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { AppContext } from './AppProvider';
+import Logo from './Logo.svg';
 
 export default class Header extends React.Component {
     static contextType = AppContext;
@@ -27,7 +28,12 @@ export default class Header extends React.Component {
         }
         return (
             <Navbar bg="light" variant="light">
-                <Navbar.Brand className="mr-auto">Linkbucket</Navbar.Brand>
+                <Navbar.Brand className="mr-auto">
+                    <img src={Logo}
+                        height="35"
+                        className="d-inline-block align-top"
+                        alt="Linkbucket" />
+                </Navbar.Brand>
                 {links}
             </Navbar>
         );
