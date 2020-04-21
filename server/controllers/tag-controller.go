@@ -41,5 +41,5 @@ func GetTags(c echo.Context) error {
 	if err != nil {
 		return utils.ProcessError(err)
 	}
-	return c.JSON(http.StatusOK, responseTags(tags))
+	return c.JSON(http.StatusOK, utils.BaseResponse(http.StatusOK, responseTags(tags)))
 }

@@ -39,7 +39,7 @@ func CreateUser(c echo.Context) (err error) {
 	if err = user.Create(); err != nil {
 		return utils.ProcessError(err)
 	}
-	return c.JSON(http.StatusOK, user.GetResponseUser())
+	return c.JSON(http.StatusOK, utils.BaseResponse(http.StatusOK, user.GetResponseUser()))
 }
 
 // Authenticate logs user in
@@ -55,7 +55,7 @@ func Authenticate(c echo.Context) (err error) {
 	if err != nil {
 		return utils.ProcessError(err)
 	}
-	return c.JSON(http.StatusOK, user.GetResponseUser())
+	return c.JSON(http.StatusOK, utils.BaseResponse(http.StatusOK, user.GetResponseUser()))
 }
 
 // GetUser retrieves user from DB
@@ -65,7 +65,7 @@ func GetUser(c echo.Context) (err error) {
 	if err != nil {
 		return utils.ProcessError(err)
 	}
-	return c.JSON(http.StatusOK, user.GetResponseUser())
+	return c.JSON(http.StatusOK, utils.BaseResponse(http.StatusOK, user.GetResponseUser()))
 }
 
 // UpdateUser modifies user from DB
@@ -94,7 +94,7 @@ func UpdateUser(c echo.Context) error {
 	if err := user.Update(); err != nil {
 		return utils.ProcessError(err)
 	}
-	return c.JSON(http.StatusOK, user.GetResponseUser())
+	return c.JSON(http.StatusOK, utils.BaseResponse(http.StatusOK, user.GetResponseUser()))
 }
 
 // DeleteUser removes user from DB
@@ -107,5 +107,5 @@ func DeleteUser(c echo.Context) (err error) {
 	if err = user.Delete(); err != nil {
 		return utils.ProcessError(err)
 	}
-	return c.JSON(http.StatusOK, user.GetResponseUser())
+	return c.JSON(http.StatusOK, utils.BaseResponse(http.StatusOK, user.GetResponseUser()))
 }

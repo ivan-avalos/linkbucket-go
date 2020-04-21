@@ -19,6 +19,7 @@
 package database
 
 import (
+	"github.com/ivan-avalos/gorm-paginator/pagination"
 	"github.com/jinzhu/gorm"
 	"github.com/metal3d/go-slugify"
 )
@@ -100,8 +101,19 @@ func GetTags(userID uint) ([]*Tag, error) {
 }
 
 // GetLinks retrieves links containing Tag
-func (tag *Tag) GetLinks() ([]*Link, error) {
+func (tag *Tag) GetLinks(page int, limit int) ([]*Link, *pagination.Paginator, error) {
 	links := make([]*Link, 0)
-	err := DB().Model(&tag).Preload("Tags").Related(&links, "Links").Error
-	return links, err
+	db := DB().Joins("INNER JOIN link_tags ON link_tags.link_id = links.id").
+		Where("link_tags.tag_id = ?", tag.ID).Preload("Tags")
+	pag := pagination.Paging(&pagination.Param{
+		DB:      db,
+		Page:    page,
+		Limit:   limit,
+		OrderBy: []string{"id desc"},
+		ShowSQL: true,
+	}, &links)
+	if pag.Error != nil {
+		return nil, nil, pag.Error
+	}
+	return links, pag, nil
 }

@@ -19,6 +19,7 @@
 package database
 
 import (
+	"log"
 	"os"
 	"time"
 
@@ -51,15 +52,15 @@ type (
 
 	// RegisterUser represents user
 	RegisterUser struct {
-		Name     string `json:"name" validate:"required"`
-		Email    string `json:"email" validate:"required,email,unique=users.email"`
-		Password string `json:"password" validate:"required,gt=8"`
+		Name     string `json:"name" validate:"required,lt=50"`
+		Email    string `json:"email" validate:"required,email,unique=users.email,lt=100"`
+		Password string `json:"password" validate:"required,gt=8,lt=255"`
 	}
 
 	// UpdateUser represents user
 	UpdateUser struct {
-		Name  string `json:"name"`
-		Email string `json:"email" validate:"omitempty,email"`
+		Name  string `json:"name,lt=50"`
+		Email string `json:"email" validate:"omitempty,email,lt=100"`
 	}
 
 	// ResponseUser represents a response version of User
@@ -112,11 +113,11 @@ func (user *User) GenerateJWT() (string, error) {
 // Authenticate validates user data and generates JWT token
 func Authenticate(email, password string) (*User, error) {
 	user := &User{}
-	err := DB().Table("users").Where("email = ?", email).First(user).Error
+	err := DB().Where("email = ?", email).First(&user).Error
 	if err != nil {
 		return nil, err
 	}
-
+	log.Println(user)
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	if err != nil {
 		return nil, err

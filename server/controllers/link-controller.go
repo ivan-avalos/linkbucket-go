@@ -22,17 +22,27 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/badoux/goscraper"
+	"github.com/ivan-avalos/gorm-paginator/pagination"
 	"github.com/ivan-avalos/linkbucket-go/server/database"
 	"github.com/ivan-avalos/linkbucket-go/server/utils"
 	"github.com/labstack/echo"
 )
 
-func responseLinks(links []*database.Link) []*database.ResponseLink {
+func responseLinks(links []*database.Link) utils.Response {
 	rlinks := make([]*database.ResponseLink, 0)
 	for _, l := range links {
 		rlinks = append(rlinks, l.GetResponseLink())
 	}
-	return rlinks
+	return utils.BaseResponse(http.StatusOK, rlinks)
+}
+
+func responseLinksPag(links []*database.Link, pag *pagination.Paginator) utils.Paginate {
+	rlinks := make([]interface{}, 0)
+	for _, l := range links {
+		rlinks = append(rlinks, l.GetResponseLink())
+	}
+	return utils.PaginateResponse(http.StatusOK, pag, rlinks)
 }
 
 func processTagsForLink(link *database.Link, str string) error {
@@ -59,13 +69,17 @@ func CreateLink(c echo.Context) error {
 	if err := database.FieldIsUniqueForUser(userID, "links", "link", link.Link); err != nil {
 		return err
 	}
+	// Get <title> from URL if found
+	if s, err := goscraper.Scrape(link.Title, 5); err == nil {
+		link.Title = s.Preview.Title
+	}
 	if err := link.Create(); err != nil {
 		return utils.ProcessError(err)
 	}
 	if err := processTagsForLink(link, requestLink.Tags); err != nil {
 		return err
 	}
-	return c.JSON(http.StatusOK, link.GetResponseLink())
+	return c.JSON(http.StatusOK, utils.BaseResponse(http.StatusOK, link.GetResponseLink()))
 }
 
 // GetLink returns link with ID
@@ -79,28 +93,53 @@ func GetLink(c echo.Context) error {
 	if err != nil {
 		return utils.ProcessError(err)
 	}
-	return c.JSON(http.StatusOK, link.GetResponseLink())
+	return c.JSON(http.StatusOK, utils.BaseResponse(http.StatusOK, link.GetResponseLink()))
 }
 
 // GetLinks returns all user links
 func GetLinks(c echo.Context) error {
 	userID := utils.GetJWTUserID(c)
-	links, err := database.GetLinks(userID)
+	p := new(database.Paginate)
+	if err := c.Bind(p); err != nil {
+		return utils.ProcessError(err)
+	}
+	if p.Page != 0 && p.Limit != 0 {
+		links, pag, err := database.GetLinks(userID, int(p.Page), int(p.Limit))
+		if err != nil {
+			return utils.ProcessError(err)
+		}
+		return c.JSON(http.StatusOK, responseLinksPag(links, pag))
+	}
+
+	links, _, err := database.GetLinks(userID, 0, -1)
 	if err != nil {
 		return utils.ProcessError(err)
 	}
 	return c.JSON(http.StatusOK, responseLinks(links))
 }
 
-// GetLinksForTag returns all links containing Tag
+// GetLinksForTag returns links containing tag
 func GetLinksForTag(c echo.Context) error {
 	userID := utils.GetJWTUserID(c)
 	slug := c.Param("slug")
+	// Get Tag
 	tag, err := database.GetTag(userID, slug)
 	if err != nil {
 		return utils.ProcessError(err)
 	}
-	links, err := tag.GetLinks()
+	p := new(database.Paginate)
+	if err := c.Bind(p); err != nil {
+		return utils.ProcessError(err)
+	}
+	if p.Page != 0 && p.Limit != 0 {
+		links, pag, err := tag.GetLinks(int(p.Page), int(p.Limit))
+		if err != nil {
+			return utils.ProcessError(err)
+		}
+		return c.JSON(http.StatusOK, responseLinksPag(links, pag))
+	}
+
+	links, _, err := tag.GetLinks(0, -1)
 	if err != nil {
 		return utils.ProcessError(err)
 	}
@@ -109,18 +148,23 @@ func GetLinksForTag(c echo.Context) error {
 
 // GetLinksForSearch returns links for search query
 func GetLinksForSearch(c echo.Context) error {
-	type search struct {
-		Query string `json:"query" validate:"required"`
-	}
-	s := new(search)
+	userID := utils.GetJWTUserID(c)
+	s := new(database.Search)
 	if err := c.Bind(s); err != nil {
 		return utils.ProcessError(err)
 	}
 	if err := c.Validate(s); err != nil {
 		return utils.ProcessError(err)
 	}
-	userID := utils.GetJWTUserID(c)
-	links, err := database.GetLinksForSearch(userID, s.Query)
+	if s.Page != 0 && s.Limit != 0 {
+		links, pag, err := database.GetLinksForSearch(userID, s.Query, int(s.Page), int(s.Limit))
+		if err != nil {
+			return utils.ProcessError(err)
+		}
+		return c.JSON(http.StatusOK, responseLinksPag(links, pag))
+	}
+
+	links, _, err := database.GetLinksForSearch(userID, s.Query, 0, -1)
 	if err != nil {
 		return utils.ProcessError(err)
 	}
@@ -168,7 +212,7 @@ func UpdateLink(c echo.Context) error {
 	if err := link.Update(); err != nil {
 		return utils.ProcessError(err)
 	}
-	return c.JSON(http.StatusOK, link.GetResponseLink())
+	return c.JSON(http.StatusOK, utils.BaseResponse(http.StatusOK, link.GetResponseLink()))
 }
 
 // DeleteLink removes Link from DB
@@ -185,5 +229,5 @@ func DeleteLink(c echo.Context) error {
 	if err := link.Delete(); err != nil {
 		return utils.ProcessError(err)
 	}
-	return c.JSON(http.StatusOK, link.GetResponseLink())
+	return c.JSON(http.StatusOK, utils.BaseResponse(http.StatusOK, link.GetResponseLink()))
 }

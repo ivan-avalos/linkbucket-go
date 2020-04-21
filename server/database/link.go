@@ -1,17 +1,17 @@
-/* 
+/*
  *  link.go
  *  Copyright (C) 2020  Iván Ávalos <ivan.avalos.diaz@hotmail.com>
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
@@ -19,6 +19,7 @@
 package database
 
 import (
+	"github.com/ivan-avalos/gorm-paginator/pagination"
 	"github.com/jinzhu/gorm"
 )
 
@@ -52,6 +53,18 @@ type (
 		Title string        `json:"title"`
 		Link  string        `json:"link"`
 		Tags  []ResponseTag `json:"tags"`
+	}
+
+	// Paginate represents request w/pagination
+	Paginate struct {
+		Page  uint `json:"page"`
+		Limit uint `json:"limit"`
+	}
+
+	// Search represents request w/query
+	Search struct {
+		Paginate
+		Query string `json:"query"`
 	}
 )
 
@@ -126,26 +139,40 @@ func GetLink(id, userID uint) (*Link, error) {
 	return link, err
 }
 
-// GetLinks retrieves all user links from DB
-func GetLinks(userID uint) ([]*Link, error) {
+// GetLinks retrieves links for page number or all
+func GetLinks(userID uint, page int, limit int) ([]*Link, *pagination.Paginator, error) {
 	links := make([]*Link, 0)
-	err := DB().Where("user_id = ?", userID).Preload("Tags").Find(&links).Error
-	if err != nil {
-		return nil, err
+	db := DB().Where("user_id = ?", userID).Preload("Tags")
+	pag := pagination.Paging(&pagination.Param{
+		DB:      db,
+		Page:    page,
+		Limit:   limit,
+		OrderBy: []string{"id desc"},
+		ShowSQL: true,
+	}, &links)
+	if pag.Error != nil {
+		return nil, nil, pag.Error
 	}
-	return links, nil
+	return links, pag, nil
 }
 
-// GetLinksForSearch retrieves all user links containing query
-func GetLinksForSearch(userID uint, q string) ([]*Link, error) {
+// GetLinksForSearch retrieves user links containing query
+func GetLinksForSearch(userID uint, query string, page int, limit int) ([]*Link, *pagination.Paginator, error) {
 	links := make([]*Link, 0)
-	err := DB().Where("user_id = ?", userID).
-		Where("title LIKE ? OR link LIKE ?", "%"+q+"%", "%"+q+"%").
-		Preload("Tags").Find(&links).Error
-	if err != nil {
-		return nil, err
+	db := DB().Where("user_id = ?", userID).
+		Where("title LIKE ? OR link LIKE ?", "%"+query+"%", "%"+query+"%").
+		Preload("Tags")
+	pag := pagination.Paging(&pagination.Param{
+		DB:      db,
+		Page:    page,
+		Limit:   limit,
+		OrderBy: []string{"id desc"},
+		ShowSQL: true,
+	}, &links)
+	if pag.Error != nil {
+		return nil, nil, pag.Error
 	}
-	return links, nil
+	return links, pag, nil
 }
 
 // Update modifies link in DB

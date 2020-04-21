@@ -41,6 +41,9 @@ func main() {
 	// Initialise Echo HTTP server
 	e := echo.New()
 	e.Use(middleware.Logger())
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowHeaders: []string{"*"},
+	}))
 	setup.InitValidators(e)
 	setup.InitRoutes(e)
 

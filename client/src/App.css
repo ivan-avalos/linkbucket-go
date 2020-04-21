@@ -1,0 +1,91 @@
+* {
+  font-size: 15px;
+}
+
+body {
+  scroll-behavior: smooth;
+  background-color: #f5f8fa;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100% !important;
+  height: 100% !important;
+
+  position: fixed;
+  z-index: 4 !important;
+  left: 0;
+  top: 0;
+  background-color: rgb(255,255,255); /* Black fallback color */
+  background-color: rgba(255,255,255, 1); /* Black w/opacity */
+}
+
+.loading-spinner {
+  width: 150px;
+  height: 150px;
+}
+
+.navbar {
+  background-color: #fff !important;
+  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.react-tagsinput {
+  background-color: #fff;
+  border: 1px solid rgb(206, 212, 217);
+  border-radius: 5px;
+  overflow: hidden;
+  padding-left: 10px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
+.react-tagsinput--focused {
+  border-color: #8fc3f9;
+  border: 3px solid #8fc3f9;
+}
+
+.react-tagsinput-tag {
+  background-color: #ffc107;
+  border-radius: 2px;
+  border: none;
+  display: inline-block;
+  margin-right: 5px;
+  padding-inline: 6px;
+}
+
+.react-tagsinput-remove {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.react-tagsinput-tag a::before {
+  content: " ×";
+}
+
+.react-tagsinput-input {
+  background: transparent;
+  border: 0;
+  color: #6d757c;
+  font-weight: 400;
+  outline: none;
+  width: 80px;
+  margin-left: 3px;
+}
+
+.link {
+  margin-bottom: 10px;
+}
+
+.link-url {
+  color: #555555;
+  font-style: italic;
+}
+
+.footer > .container {
+  padding-right: 15px;
+  padding-left: 15px;
+}

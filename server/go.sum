@@ -1,3 +1,8 @@
+github.com/badoux/goscraper v0.0.0-20190827161153-36995ce6b19f h1:K7yQFgSzse/bjP0DaNlmgdlg8u0HiIQax0HdTGnaMaY=
+github.com/badoux/goscraper v0.0.0-20190827161153-36995ce6b19f/go.mod h1:5iU5AiceCVP7wmrAIn/9YhJzvmErX/GihV/T2o5QUpM=
+github.com/biezhi/gorm-paginator v0.0.2 h1:ErKKbS6pq/3KOlvAcwju3tKg+ocRqVMmZ+X7aj8I8MM=
+github.com/biezhi/gorm-paginator/pagination v0.0.0-20190124091837-7a5c8ed20334 h1:ptFjQ4+vPGZDiNmBuKUetQoREFiPz/WB29CfQfdfeKc=
+github.com/biezhi/gorm-paginator/pagination v0.0.0-20190124091837-7a5c8ed20334/go.mod h1:Y/N4aF7p+Med/9ivVSsGBc8xOs8BGptUVBCY3k4KFCY=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/denisenkom/go-mssqldb v0.0.0-20191124224453-732737034ffd/go.mod h1:xbL0rPBG9cCiLr28tMa8zpbdarY27NDyej4t/EjAShU=
 github.com/dgrijalva/jwt-go v3.2.0+incompatible h1:7qlOGliEKZXTDg6OTjfoBKDXWrumCAMpl/TFQ4/5kLM=
@@ -14,8 +19,16 @@ github.com/go-sql-driver/mysql v1.5.0 h1:ozyZYNQW3x3HtqT1jira07DN2PArx2v7/mN66gG
 github.com/go-sql-driver/mysql v1.5.0/go.mod h1:DCzpHaOWr8IXmIStZouvnhqoel9Qv2LBy8hT2VhHyBg=
 github.com/golang-sql/civil v0.0.0-20190719163853-cb61b32ac6fe/go.mod h1:8vg3r2VgvsThLBIFL93Qb5yWzgyZWhEmBwUJWevAkK0=
 github.com/golang/protobuf v1.2.0/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
+github.com/ivan-avalos/gorm-paginator v0.0.2 h1:IrZ/izdHFKj3avc+TSrLAP034ZZ9iEjspjFK5jzIjAU=
+github.com/ivan-avalos/gorm-paginator v0.0.2/go.mod h1:EyP/6uFl2du527dxsLVTlJxJ+/p2Sq23JCOqtovI0dM=
+github.com/ivan-avalos/gorm-paginator/pagination v0.0.0-20200420171620-44b491c88153 h1:vsDijdUdZA21w3nu9mvVY0x2noK8WYydkVTVsFrx8sw=
+github.com/ivan-avalos/gorm-paginator/pagination v0.0.0-20200420171620-44b491c88153/go.mod h1:NwEPAUGUTMubaSg37mTRPDA15wgUportxs0zsmNL1Pw=
+github.com/ivan-avalos/gorm-paginator/pagination v0.0.0-20200420193221-15ef16f02ab0 h1:sT9MtKMIwS96cYSjb1gElLX1NzK39ujIRKtwZA+FXBY=
+github.com/ivan-avalos/gorm-paginator/pagination v0.0.0-20200420193221-15ef16f02ab0/go.mod h1:NwEPAUGUTMubaSg37mTRPDA15wgUportxs0zsmNL1Pw=
+github.com/jinzhu/gorm v1.9.2/go.mod h1:Vla75njaFJ8clLU1W44h34PjIkijhjHIYnZxMqCdxqo=
 github.com/jinzhu/gorm v1.9.12 h1:Drgk1clyWT9t9ERbzHza6Mj/8FY/CqMyVzOiHviMo6Q=
 github.com/jinzhu/gorm v1.9.12/go.mod h1:vhTjlKSJUTWNtcbQtrMBFCxy7eXTzeCAzfL5fBZT/Qs=
+github.com/jinzhu/inflection v0.0.0-20180308033659-04140366298a/go.mod h1:h+uFLlag+Qp1Va5pdKtLDYj+kHp5pxUVkryuEj+Srlc=
 github.com/jinzhu/inflection v1.0.0 h1:K317FqzuhWc8YvSVlFMCCUb36O/S9MCKRDI7QkRKD/E=
 github.com/jinzhu/inflection v1.0.0/go.mod h1:h+uFLlag+Qp1Va5pdKtLDYj+kHp5pxUVkryuEj+Srlc=
 github.com/jinzhu/now v1.0.1/go.mod h1:d3SSVoowX0Lcu0IBviAWJpolVfI5UJVZZ7cO71lE/z8=
@@ -55,6 +68,7 @@ golang.org/x/net v0.0.0-20190404232315-eb5bcb51f2a3/go.mod h1:t9HGtf8HONx5eT2rtn
 golang.org/x/sys v0.0.0-20190215142949-d0b11bdaac8a/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
 golang.org/x/sys v0.0.0-20190222072716-a9d3bda3a223/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
 golang.org/x/sys v0.0.0-20190412213103-97732733099d/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
+golang.org/x/sys v0.0.0-20190813064441-fde4db37ae7a h1:aYOabOQFp6Vj6W1F80affTUvO9UxmJRx8K0gsfABByQ=
 golang.org/x/sys v0.0.0-20190813064441-fde4db37ae7a/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/text v0.3.0/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
 golang.org/x/text v0.3.2 h1:tW2bmiBqwgJj/UpqtC8EpXEZVYOwU0yG4iWbprSVAcs=
