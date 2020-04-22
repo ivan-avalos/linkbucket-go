@@ -18,6 +18,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Card, Form, Button, InputGroup } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import EditLink from './EditLink';
 import Tags from './Tags';
 import Links from './Links';
@@ -74,8 +76,8 @@ class Search extends React.Component {
                                 onChange={this.handleInput.bind(this)}
                             />
                             <InputGroup.Append>
-                                {/*<Button variant="primary" type="submit">Search</Button>*/}
-                                <Link class="btn btn-primary" type="submit" to={"/search?q="+this.state.q}>Search</Link>
+                                <Link class="btn btn-primary" type="submit" to={"/search?q="+this.state.q}>
+                                    <FontAwesomeIcon icon={faSearch} /> Search</Link>
                             </InputGroup.Append>
                         </InputGroup>
                     </p>

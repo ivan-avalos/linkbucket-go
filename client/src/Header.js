@@ -45,12 +45,14 @@ export default class Header extends React.Component {
         }
         return (
             <Navbar bg="light" variant="light">
-                <Navbar.Brand className="mr-auto">
-                    <img src={Logo}
-                        height="35"
-                        className="d-inline-block align-top"
-                        alt="Linkbucket" />
-                </Navbar.Brand>
+                <Link to="/" className="mr-auto">
+                    <Navbar.Brand>
+                        <img src={Logo}
+                            height="35"
+                            className="d-inline-block align-top"
+                            alt="Linkbucket" />
+                    </Navbar.Brand>
+                </Link>
                 {links}
             </Navbar>
         );

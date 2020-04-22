@@ -16,6 +16,8 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faEdit } from '@fortawesome/free-solid-svg-icons'
 import { Card, Form, Button } from 'react-bootstrap';
 import TagsInput from 'react-tagsinput';
 import ValidationErrors from './ValidationErrors';
@@ -138,8 +140,10 @@ export default class EditLink extends React.Component {
                             />
                         </Form.Group>
                         { this.props.edit ?
-                             <Button variant="warning" onClick={this.onSubmit}>Edit Link</Button> :
-                             <Button variant="primary" onClick={this.onSubmit}>Add Link</Button>
+                             <Button variant="warning" onClick={this.onSubmit}>
+                                <FontAwesomeIcon icon={faEdit} /> Edit link</Button> :
+                             <Button variant="primary" onClick={this.onSubmit}>
+                                <FontAwesomeIcon icon={faPlus} /> Add link</Button>
                         }
                     </Card.Body>
                 </Card>

@@ -17,7 +17,9 @@
  */
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Row, Card, Badge } from 'react-bootstrap';
+import { Row, Card, Badge, Button } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faReply, faEdit, faTrash, faCopy } from '@fortawesome/free-solid-svg-icons';
 import Pagination from 'react-js-pagination';
 import Tags from './Tags';
 import { AppContext } from './AppProvider';
@@ -119,6 +121,17 @@ class LinkItem extends React.Component {
         this.props.onDelete(this.props.link.id);
     }
 
+    copyLink() {
+        const link = this.props.link.link;
+        const el = document.createElement('textarea');
+        el.value = link;
+        el.setAttribute('readonly', '');
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+    }
+
     render() {
         const link = this.props.link;
         return (
@@ -131,9 +144,14 @@ class LinkItem extends React.Component {
                         <Card.Text>
                             <Tags tags={link.tags} className="mb-3" />
                         </Card.Text>
-                        <a className="btn btn-primary" href={link.link} target="_blank">Go</a>&nbsp;
-                        <Link to={"/edit/"+link.id} className="btn btn-warning">Edit</Link>&nbsp;
-                        <Link onClick={this.onDelete.bind(this)} className="btn btn-danger">Delete</Link>
+                        <a className="btn btn-primary" href={link.link} target="_blank">
+                            <FontAwesomeIcon icon={faReply} /> Go</a>&nbsp;
+                        <Button onClick={this.copyLink.bind(this)} variant="dark">
+                            <FontAwesomeIcon icon={faCopy} /> Copy</Button>&nbsp;
+                        <Link to={"/edit/"+link.id} className="btn btn-warning">
+                            <FontAwesomeIcon icon={faEdit} /> Edit</Link>&nbsp;
+                        <Link onClick={this.onDelete.bind(this)} className="btn btn-danger">
+                            <FontAwesomeIcon icon={faTrash} /> Delete</Link>&nbsp;
                 </Card.Body>
             </Card>
         );
