@@ -13,7 +13,8 @@ Linkbucket is a free and open-source online bookmark manager focused on simplici
 ## Commands
 ```sh
 cd client
-emacs .env.local # fill variables
+cp env.example .env
+emacs .env # fill variables
 npm install
 npm run build
 
