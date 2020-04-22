@@ -21,6 +21,7 @@ package main
 import (
 	"log"
 	"os"
+	"strings"
 
 	"github.com/ivan-avalos/linkbucket-go/server/database"
 	"github.com/ivan-avalos/linkbucket-go/server/setup"
@@ -42,6 +43,7 @@ func main() {
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: strings.Split(os.Getenv("CLIENT_URL"), ","),
 		AllowHeaders: []string{"*"},
 	}))
 	setup.InitValidators(e)
