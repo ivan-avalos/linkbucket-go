@@ -23,26 +23,30 @@ import { AppContext } from './AppProvider';
 export default class Site extends React.Component {
     render() {
         return (
-            <Card>
-                <Route path="/site/about">
-                    <Card.Header className="h5">
-                        About
-                    </Card.Header>
-                    <Card.Body className="lead">
-                        Linkbucket is a free and open-source online bookmark manager focused on simplicity and minimalism.
-                    </Card.Body>
-                </Route>
-                <Route path="/site/open-source">
-                    <Card.Header className="h5">
-                        Open Source
-                    </Card.Header>
-                    <Card.Body className="lead">
-                        The software that powers this website is called Linkbucket and anyone can download the&nbsp;
-                        <a className="lead" href="https://github.com/ivan-avalos/linkbucket-go">source code</a> and run their own instance! 
-                        It is written in Go and React and it is totally self-hostable, so you can run your own instance.
-                    </Card.Body>
-                </Route>
-            </Card>
+			<div>
+				<Route path="/site/about">
+					<Card>
+						<Card.Header className="h5">
+							About
+						</Card.Header>
+						<Card.Body className="lead">
+							Linkbucket is a free and open-source online bookmark manager focused on simplicity and minimalism.
+						</Card.Body>
+					</Card>
+				</Route>
+				<Route path="/site/open-source">
+					<Card>
+						<Card.Header className="h5">
+							Open Source
+						</Card.Header>
+						<Card.Body className="lead">
+							The software that powers this website is called Linkbucket and anyone can download the&nbsp;
+							<a className="lead" href="https://github.com/ivan-avalos/linkbucket-go">source code</a> and run their own instance! 
+							It is written in Go and React and it is totally self-hostable, so you can run your own instance.
+						</Card.Body>
+					</Card>
+				</Route>
+			</div>
         );
     }
 }

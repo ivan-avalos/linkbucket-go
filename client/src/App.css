@@ -90,3 +90,18 @@ body {
   padding-right: 15px;
   padding-left: 15px;
 }
+
+/* Landing */
+.landing-block-1 {
+	background-color: white;
+	padding-top: 70px;
+	padding-bottom: 70px;
+}
+
+.landing-title-1 {
+	font-weight: bold;
+}
+
+.landing-title-2 {
+	color: #5f5f5f;
+}

@@ -55,6 +55,13 @@ type (
 		Tags  []ResponseTag `json:"tags"`
 	}
 
+	// OldImportLink represents Link from original Linkbucket for import
+	OldImportLink struct {
+		Title string   `json:"title"`
+		Link  string   `json:"link"`
+		Tags  []string `json:"Tags"`
+	}
+
 	// Paginate represents request w/pagination
 	Paginate struct {
 		Page  uint `json:"page"`
@@ -81,6 +88,14 @@ func (ul *UpdateLink) GetLink() *Link {
 	return &Link{
 		Title: ul.Title,
 		Link:  ul.Link,
+	}
+}
+
+// GetLink returns Link from OldImportLink
+func (oil *OldImportLink) GetLink() *Link {
+	return &Link{
+		Title: oil.Title,
+		Link:  oil.Link,
 	}
 }
 

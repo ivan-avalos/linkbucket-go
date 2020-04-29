@@ -19,12 +19,14 @@
 package controllers
 
 import (
+	"encoding/json"
 	"net/http"
 	"strconv"
 
 	"github.com/badoux/goscraper"
 	"github.com/ivan-avalos/gorm-paginator/pagination"
 	"github.com/ivan-avalos/linkbucket-go/server/database"
+	"github.com/ivan-avalos/linkbucket-go/server/jobs"
 	"github.com/ivan-avalos/linkbucket-go/server/utils"
 	"github.com/labstack/echo"
 )
@@ -230,4 +232,41 @@ func DeleteLink(c echo.Context) error {
 		return utils.ProcessError(err)
 	}
 	return c.JSON(http.StatusOK, utils.BaseResponse(http.StatusOK, link.GetResponseLink()))
+}
+
+// ImportOld imports JSON file from old Linkbucket
+func ImportOld(c echo.Context) error {
+	userID := utils.GetJWTUserID(c)
+
+	// Upload
+	file, err := c.FormFile("links")
+	if err != nil {
+		return utils.ProcessError(err)
+	}
+	src, err := file.Open()
+	if err != nil {
+		return utils.ProcessError(err)
+	}
+	defer src.Close()
+
+	var links []database.OldImportLink
+	if err := json.NewDecoder(src).Decode(&links); err != nil {
+		return utils.ProcessError(err)
+	}
+
+	if err := jobs.Enqueue(jobs.Job{
+		UserID:   userID,
+		Name:     "AsyncOldImport",
+		Function: jobs.AsyncOldImport,
+		Params:   []interface{}{links},
+	}); err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusOK, utils.BaseResponse(http.StatusOK, nil))
+}
+
+// ImportNew imports JSON file from Linkbucket Go
+func ImportNew(c echo.Context) error {
+	return nil
 }

@@ -24,6 +24,7 @@ import (
 	"strings"
 
 	"github.com/ivan-avalos/linkbucket-go/server/database"
+	"github.com/ivan-avalos/linkbucket-go/server/jobs"
 	"github.com/ivan-avalos/linkbucket-go/server/setup"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo"
@@ -48,6 +49,9 @@ func main() {
 	}))
 	setup.InitValidators(e)
 	setup.InitRoutes(e)
+
+	// Initialise queue worker
+	go jobs.Init()
 
 	// Start Echo HTTP server
 	e.Logger.Fatal(e.Start(":" + os.Getenv("HTTP_PORT")))

@@ -29,7 +29,8 @@ import (
 
 // InitRoutes initializes routes
 func InitRoutes(e *echo.Echo) {
-	e.Use(middleware.StaticWithConfig(middleware.StaticConfig{
+	app := e.Group("/app")
+	app.Use(middleware.StaticWithConfig(middleware.StaticConfig{
 		Root:  "../client/build/",
 		HTML5: true,
 	}))
@@ -38,8 +39,9 @@ func InitRoutes(e *echo.Echo) {
 	e.POST("/api/token", controllers.Authenticate)
 	auth := e.Group("/api")
 	auth.Use(middleware.JWTWithConfig(middleware.JWTConfig{
-		Claims:     &utils.Token{},
-		SigningKey: []byte(os.Getenv("TOKEN_PASSWORD")),
+		Claims:       &utils.Token{},
+		SigningKey:   []byte(os.Getenv("TOKEN_PASSWORD")),
+		ErrorHandler: utils.ProcessJWTError(),
 	}))
 	{
 		auth.GET("/user", controllers.GetUser)
@@ -55,5 +57,8 @@ func InitRoutes(e *echo.Echo) {
 		auth.GET("/tag", controllers.GetTags)
 		auth.GET("/tag/:slug", controllers.GetLinksForTag)
 		auth.GET("/search", controllers.GetLinksForSearch)
+
+		auth.POST("/import/old", controllers.ImportOld)
+		auth.POST("/import/new", controllers.ImportNew)
 	}
 }

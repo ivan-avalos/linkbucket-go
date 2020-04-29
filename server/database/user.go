@@ -166,5 +166,7 @@ func (user *User) Update() error {
 
 // Delete removes a user from DB
 func (user *User) Delete() error {
+	DB().Delete(Link{}, "user_id = ?", user.ID)
+	DB().Delete(Tag{}, "user_id = ?", user.ID)
 	return DB().Delete(user).Error
 }

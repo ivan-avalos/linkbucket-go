@@ -28,6 +28,7 @@ import (
 	"github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -100,6 +101,13 @@ func ProcessError(err error) *echo.HTTPError {
 		return BaseError(http.StatusUnauthorized, "Invalid Credentials", "auth_error", err.Error())
 	}
 	return BaseError(http.StatusInternalServerError, "Unknown Error", "unknown_error", err.Error())
+}
+
+// ProcessJWTError handles JWT error
+func ProcessJWTError() middleware.JWTErrorHandler {
+	return func(err error) error {
+		return BaseError(http.StatusUnauthorized, "JWT Token Error", "jwt_token_error", err.Error())
+	}
 }
 
 func processValidationError(errs validator.ValidationErrors) *echo.HTTPError {

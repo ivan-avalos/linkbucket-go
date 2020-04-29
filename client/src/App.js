@@ -35,11 +35,12 @@ import Login from './Login';
 import Register from './Register';
 import EditLink from './EditLink';
 import Site from './Site';
+import Landing from './Landing';
 
 export default class App extends React.Component {
     render() {
         return (
-            <Router>
+			<Router basename={'/app'}>
                 <AppProviderWithRouter>
                     <AppContext.Consumer>
                         { context => (
@@ -47,12 +48,13 @@ export default class App extends React.Component {
                                 <Loading loading={context.state.loading} />
                                 <Header />
                                 <Container fluid className="py-4">
+									<Route exact path="/" component={Landing} />
                                     <Row className="justify-content-center">
                                         <Col lg={8} md={12} sm={12}>
                                             <Switch>
-                                                <Route exact path="/">
+                                                {/*<Route exact path="/">
                                                     {context.state.isAuth ? <Redirect to="/home" /> : <Redirect to="/login" />}
-                                                </Route>
+													</Route>*/}
                                                 <Route path="/login">
                                                     {context.state.isAuth ? <Redirect to="/home" /> : <Login />}
                                                 </Route>
