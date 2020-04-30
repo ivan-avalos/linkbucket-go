@@ -29,6 +29,15 @@ go install
 go run .
 ```
 
+## Build and run using Docker
+```sh
+docker build -t TAG_NAME .
+cp env.docker.example .env.docker
+emacs .env.docker # fill variables
+docker run -p 8080:8000 \
+	--env-file .env.docker TAG_NAME
+```
+
 # Licence (AGPLv3)
 ```
 This program is free software: you can redistribute it and/or modify
