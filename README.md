@@ -30,6 +30,17 @@ go run .
 ```
 
 ## Build and run using Docker
+
+### Dockerhub
+```sh
+docker pull avalos/linkbucket-go
+wget -O .env.docker https://raw.githubusercontent.com/ivan-avalos/linkbucket-go/master/env.docker.example
+emacs .env.docker # fill variables
+docker run -p 8080:8000 \
+	--env-file .env.docker avalos/linkbucket-go
+```
+
+### Build image from Dockerfile
 ```sh
 docker build -t TAG_NAME .
 cp env.docker.example .env.docker
