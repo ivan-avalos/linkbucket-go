@@ -24,7 +24,7 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/ivan-avalos/gorm-paginator/pagination"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 // Token represents a JWT token

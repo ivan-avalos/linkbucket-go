@@ -6,43 +6,30 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/ivan-avalos/linkbucket-go/server/database"
 	"github.com/ivan-avalos/linkbucket-go/server/utils"
 )
 
-// Job represents async job
-type Job struct {
-	UserID   uint
-	Name     string
-	Function func(Job)
-	Params   []interface{}
+var jobChan chan database.Job
+
+var callMap database.CallMap = database.CallMap{
+	"jobs.AsyncOldImport": AsyncOldImport,
 }
 
-func (job *Job) start() {
-	log.Printf("Job %s for user %d started", job.Name, job.UserID)
-	job.Function(*job)
-	log.Printf("Job %s for user %d finished", job.Name, job.UserID)
-}
-
-var jobChan chan Job
-
-func worker() {
-	for job := range jobChan {
-		job.start()
-	}
-}
-
-// Init initialises queue worker
-func Init() {
-	limit, err := strconv.Atoi(os.Getenv("QUEUE_LIMIT"))
+func loadFromDB() {
+	jobs, err := database.GetUnfinishedJobs()
 	if err != nil {
-		log.Panic("QUEUE_LIMIT is invalid or null")
+		log.Println("Could not load jobs from DB")
+		log.Println(err)
+	} else {
+		for _, j := range jobs {
+			Enqueue(j)
+		}
 	}
-	jobChan = make(chan Job, limit)
-	worker()
 }
 
-// Enqueue adds job to queue if there is capacity
-func Enqueue(job Job) error {
+// Enqueue adds job to queue
+func Enqueue(job database.Job) error {
 	select {
 	case jobChan <- job:
 		return nil
@@ -53,5 +40,27 @@ func Enqueue(job Job) error {
 			"max_capacity_error",
 			nil,
 		)
+	}
+}
+
+// Init starts worker pool with queue
+func Init() {
+	queueSize, err := strconv.Atoi(os.Getenv("QUEUE_LIMIT"))
+	if err != nil {
+		log.Println("QUEUE_LIMIT is invalid or null")
+	}
+	queueNumber, err := strconv.Atoi(os.Getenv("QUEUE_NUMBER"))
+	if err != nil {
+		log.Println("QUEUE_NUMBER is invalid or null")
+	}
+	jobChan = make(chan database.Job, queueSize)
+	loadFromDB()
+	for i := 1; i < queueNumber; i++ {
+		go func() {
+			for j := range jobChan {
+				j.Start(callMap)
+			}
+		}()
+		log.Printf("Started worker %d", i)
 	}
 }

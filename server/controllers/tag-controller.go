@@ -23,7 +23,7 @@ import (
 
 	"github.com/ivan-avalos/linkbucket-go/server/database"
 	"github.com/ivan-avalos/linkbucket-go/server/utils"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 func responseTags(links []*database.Tag) []*database.ResponseTag {

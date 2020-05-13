@@ -28,7 +28,7 @@ import (
 	"github.com/ivan-avalos/linkbucket-go/server/database"
 	"github.com/ivan-avalos/linkbucket-go/server/jobs"
 	"github.com/ivan-avalos/linkbucket-go/server/utils"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 func responseLinks(links []*database.Link) utils.Response {
@@ -254,16 +254,20 @@ func ImportOld(c echo.Context) error {
 		return utils.ProcessError(err)
 	}
 
-	if err := jobs.Enqueue(jobs.Job{
-		UserID:   userID,
-		Name:     "AsyncOldImport",
-		Function: jobs.AsyncOldImport,
-		Params:   []interface{}{links},
-	}); err != nil {
-		return err
+	job := database.Job{
+		UserID: userID,
+		Name:   "AsyncOldImport",
+		FnName: "jobs.AsyncOldImport",
+		Params: []interface{}{links},
+	}
+	if err := job.Create(); err != nil {
+		return utils.ProcessError(err)
+	}
+	if err := jobs.Enqueue(job); err != nil {
+		return utils.ProcessError(err)
 	}
 
-	return c.JSON(http.StatusOK, utils.BaseResponse(http.StatusOK, nil))
+	return c.JSON(http.StatusOK, utils.BaseResponse(http.StatusOK, job.GetResponseJob()))
 }
 
 // ImportNew imports JSON file from Linkbucket Go

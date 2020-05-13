@@ -23,8 +23,8 @@ import (
 
 	"github.com/ivan-avalos/linkbucket-go/server/controllers"
 	"github.com/ivan-avalos/linkbucket-go/server/utils"
-	"github.com/labstack/echo"
-	"github.com/labstack/echo/middleware"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 // InitRoutes initializes routes

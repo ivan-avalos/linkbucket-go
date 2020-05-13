@@ -25,7 +25,7 @@ import (
 
 	"github.com/go-playground/validator"
 	"github.com/ivan-avalos/linkbucket-go/server/database"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 // CustomValidator is a custom validator
