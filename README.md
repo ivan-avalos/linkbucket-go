@@ -1,10 +1,11 @@
-![Linkbucket Logo](Logo.svg)
+![Linkbucket Logo](docs/Logo.png)
 
 Linkbucket is a free and open-source online bookmark manager focused on simplicity and minimalism. It is written in Go and React and it is totally self-hostable, so you can run your own instance.
 
 ### Warning: This software is still in progress and probably not suitable for production yet!
 
-![Linkbucket Screenshot](screenshot.png)
+![Linkbucket Screenshot 1](docs/mockup1.png)
+![Linkbucket Screenshot 2](docs/mockup2.png)
 
 # Installation
 
@@ -48,6 +49,10 @@ emacs .env.docker # fill variables
 docker run -p 8080:8000 \
 	--env-file .env.docker TAG_NAME
 ```
+
+# History
+
+Linkbucket Go is a full rewrite of the original [Linkbucket](https://github.com/ivan-avalos/linkbucket), written entirely in Laravel (PHP). It preserves its minimalist and basic UI. I created both Linkbuckets only as practice projects (like everything I do), and hence their poor code quality and terrible APIs. But I'm always getting slightly better at programming!
 
 # Licence (AGPLv3)
 ```

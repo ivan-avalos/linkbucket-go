@@ -117,7 +117,7 @@ func (link *Link) GetResponseLink() *ResponseLink {
 
 func (link *Link) IsUnique() (bool, error) {
 	var count int
-	err := DB().Table("jobs").Where("link = ? && user_id = ?", link.Link, link.UserID).Count(count).Error
+	err := DB().Table("links").Where("link = ? AND user_id = ?", link.Link, link.UserID).Count(&count).Error
 	if err != nil {
 		return false, err
 	}
