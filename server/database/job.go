@@ -25,8 +25,10 @@ type (
 
 	// ResponseJob represents a Job for response
 	ResponseJob struct {
-		ID   uint   `json:"id"`
-		Name string `json:"name"`
+		ID    uint        `json:"id"`
+		Name  string      `json:"name"`
+		Done  bool        `json:"done"`
+		Error interface{} `json:"error"`
 	}
 
 	// CallMap represents map to resolve function calls
@@ -35,9 +37,15 @@ type (
 
 // GetResponseJob returns ResponseJob from Job
 func (job *Job) GetResponseJob() ResponseJob {
+	var error interface{} = nil
+	if job.Error != "" {
+		error = job.Error
+	}
 	return ResponseJob{
-		ID:   job.ID,
-		Name: job.Name,
+		ID:    job.ID,
+		Name:  job.Name,
+		Done:  job.Done,
+		Error: error,
 	}
 }
 
@@ -87,9 +95,8 @@ func GetUnfinishedJobs() ([]Job, error) {
 // GetFinishedJobs returns last 10 finished/failed jobs for user (used for polling)
 func GetFinishedJobs(userID uint) ([]Job, error) {
 	var jobs []Job
-	err := DB().Limit(50).
-		Where("retry_left > 0 AND user_id = ?", userID).
-		Where("done = ? OR error IS NOT NULL", true).
+	err := DB().Limit(10).Order("id desc").
+		Where("user_id = ?", userID).
 		Find(&jobs).Error
 	return jobs, err
 }

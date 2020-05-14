@@ -253,7 +253,6 @@ func ImportOld(c echo.Context) error {
 	if err := json.NewDecoder(src).Decode(&links); err != nil {
 		return utils.ProcessError(err)
 	}
-
 	job := database.Job{
 		UserID: userID,
 		Name:   "AsyncOldImport",

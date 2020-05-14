@@ -19,10 +19,23 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { AppContext } from './AppProvider';
+import { Import } from './Import';
 import Logo from './Logo.svg';
 
 export default class Header extends React.Component {
     static contextType = AppContext;
+    state = {
+        showImport: false
+    };
+
+    showImport() {
+        this.setState({showImport: true});
+    }
+
+    hideImport() {
+        this.setState({showImport: false});
+    }
+
     render() {
         let links;
         if (!this.context.state.isAuth) {
@@ -32,10 +45,10 @@ export default class Header extends React.Component {
             </Nav>;
         } else {
             links = <NavDropdown alignRight title={this.context.state.user.name+" "}>
-                <NavDropdown.Item onClick={this.context.import}>
-                    Import
+				<NavDropdown.Item onClick={this.showImport.bind(this)}>
+					Import
                 </NavDropdown.Item>
-                <NavDropdown.Item onClick={this.context.import}>
+                <NavDropdown.Item onClick={this.context.import} disabled>
                     Export
                 </NavDropdown.Item>
                 <NavDropdown.Item onClick={this.context.logout}>
@@ -44,17 +57,22 @@ export default class Header extends React.Component {
             </NavDropdown>
         }
         return (
-            <Navbar bg="light" variant="light">
-                <Link to="/" className="mr-auto">
-                    <Navbar.Brand>
-                        <img src={Logo}
-                            height="35"
-                            className="d-inline-block align-top"
-                            alt="Linkbucket" />
-                    </Navbar.Brand>
-                </Link>
-                {links}
-            </Navbar>
+            <>
+                <Navbar bg="light" variant="light">
+                    <Link to="/" className="mr-auto">
+                        <Navbar.Brand>
+                            <img src={Logo}
+                                height="35"
+                                className="d-inline-block align-top"
+                                alt="Linkbucket" />
+                        </Navbar.Brand>
+                    </Link>
+                    {links}
+                </Navbar>
+                <Import
+                    show={this.state.showImport}
+                    handleClose={this.hideImport.bind(this)} />
+            </>
         );
     }
 }

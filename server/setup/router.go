@@ -60,5 +60,7 @@ func InitRoutes(e *echo.Echo) {
 
 		auth.POST("/import/old", controllers.ImportOld)
 		auth.POST("/import/new", controllers.ImportNew)
+
+		auth.GET("/status", controllers.GetFinishedJobs)
 	}
 }

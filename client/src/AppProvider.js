@@ -305,6 +305,19 @@ export class AppProvider extends React.Component {
             .catch(() => false);
     }
 
+    async importOld(file) {
+        const data = new FormData();
+        data.append("links", file);
+        return this.inst({
+            method: 'post',
+            url: '/import/old',
+            data: data,
+            ...this.config
+        })
+            .then(() => true)
+            .catch(() => false);
+    }
+
     render() {
         return (
             <AppContext.Provider
@@ -325,7 +338,8 @@ export class AppProvider extends React.Component {
                     getLinksForSearch: this.getLinksForSearch.bind(this),
                     updateLink: this.updateLink.bind(this),
                     deleteLink: this.deleteLink.bind(this),
-                    getTags: this.getTags.bind(this)
+                    getTags: this.getTags.bind(this),
+                    importOld: this.importOld.bind(this),
                 }}
             >
                 {this.props.children}
