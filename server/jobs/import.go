@@ -23,6 +23,16 @@ func AsyncOldImport(job database.Job) {
 		oil := links[i]
 		link := oil.GetLink()
 		link.UserID = userID
+		ok, err := link.IsUnique()
+		if err != nil {
+			job.Error = err.Error()
+			job.LogError()
+			job.Update()
+			return
+		}
+		if !ok {
+			continue
+		}
 		if err := link.Create(); err != nil {
 			job.Error = err.Error()
 			job.LogError()

@@ -35,6 +35,9 @@ export class Import extends React.Component {
                     <p>
                         Importing bookmarks is an asynchronous task, that means that, after you are redirected to home, you will have to refresh in a while in order to see all the bookmarks. That "while" will depend in how many bookmarks you are importing.
                     </p>
+                    <p>
+                        <b>Duplicate links won't be inserted.</b>
+                    </p>
                     <FormGroup>
                         <Form.Check type="radio" label="Import from Pocket." disabled />
                         <Form.Check type="radio" label="Import from Linkbucket (Laravel)." checked />
