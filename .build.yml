@@ -18,5 +18,5 @@ tasks:
   - build-client: |
       cd linkbucket-go/client
       npm install --silent
-      npm install react-scripts@3.4.1 -g --silent
+      sudo npm install react-scripts@3.4.1 -g --silent
       npm run build
