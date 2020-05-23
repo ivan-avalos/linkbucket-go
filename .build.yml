@@ -14,7 +14,7 @@ tasks:
   - build-server: |
       cd linkbucket-go/server
       go mod download
-      CGO_ENABLED=0 GOOS=linux go build -a -installsufix cgo -o linkbucket .
+      CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o linkbucket .
   - build-client: |
       cd linkbucket-go/client
       npm install --silent
