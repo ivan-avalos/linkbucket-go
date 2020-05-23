@@ -1,0 +1,25 @@
+image: alpine/edge
+packages:
+  - nodejs
+  - npm
+  - go
+sources:
+  - https://git.sr.ht/~avalos/linkbucket-go
+environment:
+#  linkbucket-url:
+  linkbucket-paginate-limit: 15
+tasks:
+  - setup: |
+      cd linkbucket-go
+      npm i
+  - build-server: |
+      cd linkbucket-go/server
+      go mod download
+      CGO_ENABLED=0 GOOS=linux go build -a -installsufix cgo -o linkbucket .
+  - build-client: |
+      cd linkbucket-go/client
+      npm install --silent
+      npm install react-scripts@3.4.1 -g --silent
+      REACT_APP_LINKBUCKET_URL="$linkbucket-url"
+      REACT_APP_PAGINATE_LIMIT="$linkbucket-paginate-limit"
+      npm run build
