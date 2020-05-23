@@ -6,11 +6,10 @@ packages:
 sources:
   - https://git.sr.ht/~avalos/linkbucket-go
 environment:
-#  linkbucket-url:
-  linkbucket-paginate-limit: 15
+  LINKBUCKET_PAGINATE_LIMIT: 15
 tasks:
   - setup: |
-      cd linkbucket-go
+      cd linkbucket-go/client
       npm i
   - build-server: |
       cd linkbucket-go/server
@@ -20,6 +19,4 @@ tasks:
       cd linkbucket-go/client
       npm install --silent
       npm install react-scripts@3.4.1 -g --silent
-      REACT_APP_LINKBUCKET_URL="$linkbucket-url"
-      REACT_APP_PAGINATE_LIMIT="$linkbucket-paginate-limit"
       npm run build
