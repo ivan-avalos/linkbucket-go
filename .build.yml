@@ -3,9 +3,14 @@ packages:
   - nodejs
   - npm
   - go
+  - rsync
 sources:
   - https://git.sr.ht/~avalos/linkbucket-go
+secrets:
+  - 44deb6d9-1368-429f-a180-ac8f3cf0efc6
 environment:
+  deploy: ec2-user@avalos.me
+  folder: /var/www/linkbucketgo.avalos.me/
   LINKBUCKET_PAGINATE_LIMIT: 15
 tasks:
   - setup: |
@@ -20,3 +25,9 @@ tasks:
       npm install --silent
       sudo npm install react-scripts@3.4.1 -g --silent
       npm run build
+  - deploy: |
+      # .env file should be already on the server!
+      # systemd init file should be already on the server!
+      sshopts="ssh -oStrictHostKeyChecking=no"
+      rsync --rsh="$sshopts" --rsync-path="sudo rsync" -rP ./linkbucket-go $deploy:$folder
+      $sshopts $deploy bash -c "'sudo service linkbucket-go restart'"
