@@ -11,7 +11,7 @@ secrets:
 environment:
   deploy: ec2-user@avalos.me
   folder: /var/www/linkbucketgo.avalos.me
-  REACT_APP_LINKBUCKET_PAGINATE_LIMIT: 15
+  REACT_APP_PAGINATE_LIMIT: 15
   REACT_APP_LINKBUCKET_URL: https://linkbucketgo.avalos.me
 tasks:
   - setup: |
