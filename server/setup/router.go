@@ -29,12 +29,14 @@ import (
 
 // InitRoutes initializes routes
 func InitRoutes(e *echo.Echo) {
+	e.Pre(middleware.Rewrite(map[string]string{
+		"/": "/app",
+	}))
 	app := e.Group("/app")
 	app.Use(middleware.StaticWithConfig(middleware.StaticConfig{
 		Root:  "../client/build/",
 		HTML5: true,
 	}))
-
 	e.POST("/api/register", controllers.CreateUser)
 	e.POST("/api/token", controllers.Authenticate)
 	auth := e.Group("/api")
