@@ -31,4 +31,4 @@ tasks:
       sshopts="ssh -oStrictHostKeyChecking=no"
       rsync --rsh="$sshopts" --rsync-path="sudo rsync" -rP ./linkbucket-go/server/linkbucket $deploy:$folder/server/
       rsync --rsh="$sshopts" --rsync-path="sudo rsync" -rP ./linkbucket-go/client/public $deploy:$folder/client/
-      $sshopts $deploy bash -c "'sudo service linkbucket-go restart'"
+      $sshopts $deploy bash -c "'sudo service linkbucketgo restart'"
