@@ -10,7 +10,7 @@ secrets:
   - 44deb6d9-1368-429f-a180-ac8f3cf0efc6
 environment:
   deploy: ec2-user@avalos.me
-  folder: /var/www/linkbucketgo.avalos.me/
+  folder: /var/www/linkbucketgo.avalos.me
   LINKBUCKET_PAGINATE_LIMIT: 15
 tasks:
   - setup: |
