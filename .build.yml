@@ -29,6 +29,7 @@ tasks:
       # .env file should be already on the server!
       # systemd init file should be already on the server!
       sshopts="ssh -oStrictHostKeyChecking=no"
+      createparent="sudo mkdir $folder/client"
       rsync --rsh="$sshopts" --rsync-path="sudo rsync" -rP ./linkbucket-go/server/linkbucket $deploy:$folder/server/
-      rsync --rsh="$sshopts" --rsync-path="sudo rsync" -rP ./linkbucket-go/client/build/ $deploy:$folder/client/build/
+      rsync --rsh="$sshopts" --rsync-path="$createparent && sudo rsync" -rP ./linkbucket-go/client/build/ $deploy:$folder/client/build/
       $sshopts $deploy bash -c "'sudo service linkbucketgo restart'"
