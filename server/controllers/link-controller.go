@@ -72,7 +72,7 @@ func CreateLink(c echo.Context) error {
 		return err
 	}
 	// Get <title> from URL if found
-	if s, err := goscraper.Scrape(link.Title, 5); err == nil {
+	if s, err := goscraper.Scrape(link.Link, 5); err == nil {
 		link.Title = s.Preview.Title
 	}
 	if err := link.Create(); err != nil {
