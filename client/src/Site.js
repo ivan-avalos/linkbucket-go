@@ -16,13 +16,13 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import React from 'react';
-import { Card } from 'react-bootstrap';
+import { Card, Container } from 'react-bootstrap';
 import { Route } from 'react-router-dom';
 
 export default class Site extends React.Component {
     render() {
         return (
-            <div>
+            <Container>
                 <Route path="/site/about">
                     <Card>
                         <Card.Header className="h5">
@@ -36,16 +36,16 @@ export default class Site extends React.Component {
                 <Route path="/site/open-source">
                     <Card>
                         <Card.Header className="h5">
-                            Open Source
+                            Free and Open Source
 						</Card.Header>
                         <Card.Body className="lead">
                             The software that powers this website is called Linkbucket and anyone can download the&nbsp;
-							<a className="lead" href="https://git.sr.ht/~avalos/linkbucket-go">source code</a> and run their own instance!
+							<a className="lead" href="https://sr.ht/~avalos/linkbucket-go">source code</a> and run their own instance!
 							It is written in Go and React and it is totally self-hostable, so you can run your own instance.
 						</Card.Body>
                     </Card>
                 </Route>
-            </div>
+            </Container>
         );
     }
 }

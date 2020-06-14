@@ -47,10 +47,10 @@ export default class App extends React.Component {
                             <div>
                                 <Loading loading={context.state.loading} />
                                 <Header />
-                                <Container fluid className="py-4">
+                                <Container fluid className="py-4 px-0 mx-0">
                                     <Route exact path="/" component={Landing} />
-                                    <Row className="justify-content-center">
-                                        <Col lg={8} md={12} sm={12}>
+                                    <Row style={{ marginLeft: 0, marginRight: 0 }} className="justify-content-center">
+                                        <Col lg={8} md={12} sm={12} style={{ paddingLeft: 0, paddingRight: 0 }}>
                                             <Switch>
                                                 <Route exact path="/">
                                                     {context.state.isAuth && <Redirect to="/home" />}

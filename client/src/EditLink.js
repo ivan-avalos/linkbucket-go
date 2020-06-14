@@ -15,13 +15,13 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import React from 'react';
+import { faEdit, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faEdit } from '@fortawesome/free-solid-svg-icons'
-import { Card, Form, Button } from 'react-bootstrap';
+import React from 'react';
+import { Button, Card, Form } from 'react-bootstrap';
 import TagsInput from 'react-tagsinput';
-import ValidationErrors from './ValidationErrors';
 import { AppContext } from './AppProvider';
+import ValidationErrors from './ValidationErrors';
 
 export default class EditLink extends React.Component {
     static contextType = AppContext;
@@ -43,7 +43,7 @@ export default class EditLink extends React.Component {
             const id = this.props.match.params.id;
             this.context.getLink(id).then(link => {
                 if (link) {
-                    const tags = link.tags.map(tag =>{
+                    const tags = link.tags.map(tag => {
                         return tag.name;
                     });
                     this.setState({
@@ -58,7 +58,7 @@ export default class EditLink extends React.Component {
     }
 
     handleTags(tags) {
-        this.setState({tags: tags})
+        this.setState({ tags: tags })
     }
 
     handleInput(event) {
@@ -99,8 +99,8 @@ export default class EditLink extends React.Component {
 
     render() {
         return (
-            <div>
-                { this.props.edit && 
+            <div className={this.props.edit && "container"}>
+                {this.props.edit &&
                     <p>
                         <Button variant="warning"
                             size="lg"
@@ -111,7 +111,7 @@ export default class EditLink extends React.Component {
                     <Card.Header className="h5">Add Link</Card.Header>
                     <Card.Body>
                         <ValidationErrors />
-                        { this.props.edit &&
+                        {this.props.edit &&
                             <Form.Group>
                                 <Form.Label>Title</Form.Label>
                                 <Form.Control
@@ -135,14 +135,14 @@ export default class EditLink extends React.Component {
                         <Form.Group>
                             <Form.Label>Tags</Form.Label>
                             <TagsInput
-                                value={this.state.tags} 
+                                value={this.state.tags}
                                 onChange={this.handleTags}
                             />
                         </Form.Group>
-                        { this.props.edit ?
-                             <Button variant="warning" onClick={this.onSubmit}>
+                        {this.props.edit ?
+                            <Button variant="warning" onClick={this.onSubmit}>
                                 <FontAwesomeIcon icon={faEdit} /> Edit link</Button> :
-                             <Button variant="primary" onClick={this.onSubmit}>
+                            <Button variant="primary" onClick={this.onSubmit}>
                                 <FontAwesomeIcon icon={faPlus} /> Add link</Button>
                         }
                     </Card.Body>
