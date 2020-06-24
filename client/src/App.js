@@ -67,7 +67,9 @@ export default class App extends React.Component {
                                                 <Route path="/edit/:id" render={props => (
                                                     !context.state.isAuth ? <Redirect to="/login" /> : <EditLink edit={true} location={props.location} match={props.match} />
                                                 )} />
-                                                <Site />
+                                                <Route path="/site">
+                                                    <Site />
+                                                </Route>
                                             </Switch>
                                         </Col>
                                     </Row>

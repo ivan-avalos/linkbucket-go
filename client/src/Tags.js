@@ -22,19 +22,23 @@ export default class Tags extends React.Component {
     render() {
         const tags = this.props.tags
             .filter(t => t.count > 0)
-            .sort((a, b) => b.count - a.count).map((tag) => {
-            return (
-                <span>
-                    <Link
-                        className="badge badge-secondary"
-                        to={"/tag/"+tag.slug}>
-                        {tag.name}
-                        {this.props.count && ` (${tag.count})`}
-                    </Link>
+            .sort((a, b) => {
+                if (a.name < b.name) { return -1; }
+                if (a.name > b.name) { return 1; }
+                return 0;
+            }).map((tag) => {
+                return (
+                    <span>
+                        <Link
+                            className="badge badge-secondary"
+                            to={"/tag/" + tag.slug}>
+                            {tag.name}
+                            {this.props.count && ` [${tag.count}]`}
+                        </Link>
                     &nbsp;
-                </span>
-            );
-        });
+                    </span>
+                );
+            });
         return <div>{tags}</div>;
     }
 }

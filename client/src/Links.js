@@ -15,14 +15,14 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Row, Card, Badge, Button } from 'react-bootstrap';
+import { faCopy, faEdit, faReply, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faReply, faEdit, faTrash, faCopy } from '@fortawesome/free-solid-svg-icons';
+import React from 'react';
+import { Badge, Button, Card, Row } from 'react-bootstrap';
 import Pagination from 'react-js-pagination';
-import Tags from './Tags';
+import { Link } from 'react-router-dom';
 import { AppContext } from './AppProvider';
+import Tags from './Tags';
 
 export default class Links extends React.Component {
     static contextType = AppContext;
@@ -60,7 +60,7 @@ export default class Links extends React.Component {
 
     handlePageChange(page) {
         const params = new URLSearchParams(this.props.location.search);
-        this.context.setSearch('?p='+page+(params.get('q') ? ('&q='+params.get('q')) : ''));
+        this.context.setSearch('?p=' + page + (params.get('q') ? ('&q=' + params.get('q')) : ''));
     }
 
     onDelete(id) {
@@ -137,21 +137,21 @@ class LinkItem extends React.Component {
         return (
             <Card className="link">
                 <Card.Body>
-                        <h5>{link.title}</h5>
-                        <Card.Text>
-                            <a href={link.link} target="_blank" className="link-url">{link.link}</a>
-                        </Card.Text>
-                        <Card.Text>
-                            <Tags tags={link.tags} className="mb-3" />
-                        </Card.Text>
-                        <a className="btn btn-primary" href={link.link} target="_blank">
-                            <FontAwesomeIcon icon={faReply} /> Go</a>&nbsp;
-                        <Button onClick={this.copyLink.bind(this)} variant="dark">
-                            <FontAwesomeIcon icon={faCopy} /> Copy</Button>&nbsp;
-                        <Link to={"/edit/"+link.id} className="btn btn-warning">
-                            <FontAwesomeIcon icon={faEdit} /> Edit</Link>&nbsp;
-                        <Link onClick={this.onDelete.bind(this)} className="btn btn-danger">
-                            <FontAwesomeIcon icon={faTrash} /> Delete</Link>&nbsp;
+                    <h5>{link.title}</h5>
+                    <Card.Text>
+                        <a href={link.link} target="_blank" className="link-url">{link.link}</a>
+                    </Card.Text>
+                    <Card.Text>
+                        <Tags tags={link.tags} className="mb-3" />
+                    </Card.Text>
+                    <a className="btn btn-sm btn-primary" href={link.link} target="_blank">
+                        <FontAwesomeIcon icon={faReply} /> Go</a>&nbsp;
+                    <Button onClick={this.copyLink.bind(this)} variant="dark" size="sm">
+                        <FontAwesomeIcon icon={faCopy} /> Copy</Button>&nbsp;
+                    <Link to={"/edit/" + link.id} className="btn btn-sm btn-warning">
+                        <FontAwesomeIcon icon={faEdit} /> Edit</Link>&nbsp;
+                    <Link onClick={this.onDelete.bind(this)} className="btn btn-sm btn-danger">
+                        <FontAwesomeIcon icon={faTrash} /> Delete</Link>&nbsp;
                 </Card.Body>
             </Card>
         );

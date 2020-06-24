@@ -42,6 +42,7 @@ body {
   padding-left: 10px;
   padding-bottom: 5px;
   padding-top: 5px;
+  font-size: 0.95rem;
 }
 
 .react-tagsinput--focused {
@@ -50,12 +51,14 @@ body {
 }
 
 .react-tagsinput-tag {
-  background-color: #ffc107;
-  border-radius: 2px;
-  border: none;
-  display: inline-block;
-  margin-right: 5px;
-  padding-inline: 6px;
+    background-color: #868e96;
+    font-size: 0.95rem;
+    border-radius: 2px;
+    border: none;
+    display: inline-block;
+    margin-right: 5px;
+    padding-inline: 6px;
+    color: white;
 }
 
 .react-tagsinput-remove {

@@ -15,11 +15,9 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import React, {
-    createContext
-} from 'react';
-import { withRouter } from 'react-router-dom';
 import axios from 'axios';
+import React, { createContext } from 'react';
+import { withRouter } from 'react-router-dom';
 
 export const AppContext = createContext(null);
 
@@ -56,15 +54,15 @@ export class AppProvider extends React.Component {
             });
             return config;
         }, error => {
-            this.setState({loading: false});
+            this.setState({ loading: false });
             this.handleError(error);
             return Promise.reject(error);
         });
         this.inst.interceptors.response.use(response => {
-            this.setState({loading: false});
+            this.setState({ loading: false });
             return response.data;
         }, error => {
-            this.setState({loading: false});
+            this.setState({ loading: false });
             this.handleError(error);
             return Promise.reject(error);
         });
@@ -84,7 +82,7 @@ export class AppProvider extends React.Component {
         }
     }
 
-    componentDidUpdate () {
+    componentDidUpdate() {
         let json = JSON.stringify({
             isAuth: this.state.isAuth,
             user: this.state.user
@@ -141,7 +139,7 @@ export class AppProvider extends React.Component {
             const data = error.response.data;
             switch (data.type) {
                 case 'validation_failed':
-                    this.setState({errors: data.errors});
+                    this.setState({ errors: data.errors });
                     break;
                 default:
                     alert(data.message);
@@ -157,7 +155,7 @@ export class AppProvider extends React.Component {
     addError(error) {
         const errors = this.state.errors;
         errors.push(error);
-        this.setState({errors: errors });
+        this.setState({ errors: errors });
     }
 
     setPagination(data) {
@@ -197,7 +195,7 @@ export class AppProvider extends React.Component {
     }
 
     async addLink(link) {
-        this.props.history.replace({url: '/home'});
+        this.props.history.replace({ url: '/home' });
         return this.inst.post('/link', link, this.config)
             .then(() => {
                 this.getLinks();
@@ -207,14 +205,14 @@ export class AppProvider extends React.Component {
     }
 
     async getLink(id) {
-        return this.inst.get('/link/'+id, this.config)
+        return this.inst.get('/link/' + id, this.config)
             .then(response => {
                 return response.data;
             }).catch(() => null);
     }
 
     async getLinks() {
-        this.setState({links: []});
+        this.setState({ links: [] });
         const params = new URLSearchParams(this.getSearch());
         console.log(params.get('p'));
         return this.inst({
@@ -225,7 +223,7 @@ export class AppProvider extends React.Component {
                 limit: process.env.REACT_APP_PAGINATE_LIMIT,
             },
             ...this.config
-         })
+        })
             .then(response => {
                 this.setPagination(response)
                 this.setState({
@@ -237,14 +235,14 @@ export class AppProvider extends React.Component {
     }
 
     async getLinksForTag(slug) {
-        this.setState({links: []});
+        this.setState({ links: [] });
         const params = new URLSearchParams(this.getSearch());
         return this.inst({
             method: 'get',
-            url: '/tag/'+slug,
+            url: '/tag/' + slug,
             params: { page: params.get('p') || 1, limit: 15 },
             ...this.config
-         })
+        })
             .then(response => {
                 this.setPagination(response)
                 this.setState({
@@ -256,7 +254,7 @@ export class AppProvider extends React.Component {
     }
 
     async getLinksForSearch() {
-        this.setState({links: []});
+        this.setState({ links: [] });
         const params = new URLSearchParams(this.getSearch());
         return this.inst({
             method: 'get',
@@ -279,7 +277,7 @@ export class AppProvider extends React.Component {
     }
 
     async updateLink(id, link) {
-        return this.inst.put('/link/'+id, link, this.config)
+        return this.inst.put('/link/' + id, link, this.config)
             .then(() => {
                 return true;
             })
@@ -287,7 +285,7 @@ export class AppProvider extends React.Component {
     }
 
     async deleteLink(id) {
-        return this.inst.delete('/link/'+id, this.config)
+        return this.inst.delete('/link/' + id, this.config)
             .then(() => {
                 return true;
             })
