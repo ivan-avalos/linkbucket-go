@@ -144,13 +144,13 @@ class LinkItem extends React.Component {
                     <Card.Text>
                         <Tags tags={link.tags} className="mb-3" />
                     </Card.Text>
-                    <a className="btn btn-sm btn-primary" href={link.link} target="_blank">
+                    <a className="btn btn-primary" href={link.link} target="_blank">
                         <FontAwesomeIcon icon={faReply} /> Go</a>&nbsp;
                     <Button onClick={this.copyLink.bind(this)} variant="dark" size="sm">
                         <FontAwesomeIcon icon={faCopy} /> Copy</Button>&nbsp;
-                    <Link to={"/edit/" + link.id} className="btn btn-sm btn-warning">
+                    <Link to={"/edit/" + link.id} className="btn btn-warning">
                         <FontAwesomeIcon icon={faEdit} /> Edit</Link>&nbsp;
-                    <Link onClick={this.onDelete.bind(this)} className="btn btn-sm btn-danger">
+                    <Link onClick={this.onDelete.bind(this)} className="btn btn-danger">
                         <FontAwesomeIcon icon={faTrash} /> Delete</Link>&nbsp;
                 </Card.Body>
             </Card>
