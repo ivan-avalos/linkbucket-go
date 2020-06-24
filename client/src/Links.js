@@ -146,7 +146,7 @@ class LinkItem extends React.Component {
                     </Card.Text>
                     <a className="btn btn-primary" href={link.link} target="_blank">
                         <FontAwesomeIcon icon={faReply} /> Go</a>&nbsp;
-                    <Button onClick={this.copyLink.bind(this)} variant="dark" size="sm">
+                    <Button onClick={this.copyLink.bind(this)} variant="dark">
                         <FontAwesomeIcon icon={faCopy} /> Copy</Button>&nbsp;
                     <Link to={"/edit/" + link.id} className="btn btn-warning">
                         <FontAwesomeIcon icon={faEdit} /> Edit</Link>&nbsp;
